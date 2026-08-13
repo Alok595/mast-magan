@@ -39,7 +39,15 @@ export default function GlobalPlayer() {
     fetch("/api/playlists")
       .then(res => res.json())
       .then(data => {
-        if(Array.isArray(data)) setPlaylists(data);
+        if(Array.isArray(data)) {
+          setPlaylists(data);
+          if (!useMusicStore.getState().mode) {
+            const defaultPlaylist = data.find(p => p.isDefault) || data[0];
+            if (defaultPlaylist) {
+              useMusicStore.getState().setMode(defaultPlaylist.playlistId || defaultPlaylist.id);
+            }
+          }
+        }
       })
       .catch(console.error);
   }, [setPlaylists]);
@@ -193,8 +201,8 @@ export default function GlobalPlayer() {
         <YouTube
           videoId={getExtractId(currentPlaylistTracks[currentSongIndex]?.videoId || "jfKfPfyJRdk")}
           opts={{
-            height: '390',
-            width: '640',
+            height: '0',
+            width: '0',
             playerVars: {
               autoplay: 1,
               controls: 0,

@@ -8,7 +8,7 @@ export async function GET() {
   try {
     await dbConnect();
     const siteVisits = await Analytics.findOne({ type: "site_visits" });
-    const playlists = await Playlist.find({}, 'title playCount ownerEmail').sort({ playCount: -1 });
+    const playlists = await Playlist.find({}).sort({ playCount: -1 }).lean();
     const users = await User.find({}).lean();
 
     return NextResponse.json({

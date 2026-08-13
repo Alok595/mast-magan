@@ -15,7 +15,8 @@ const PlaylistSchema = new mongoose.Schema({
   backgroundMedia: { type: String, default: "" },
   ownerEmail: { type: String, default: "admin@mastmagan.com" },
   tracks: [TrackSchema],
-  playCount: { type: Number, default: 0 }
+  playCount: { type: Number, default: 0 },
+  isDefault: { type: Boolean, default: false }
 }, { timestamps: true });
 
 export default mongoose.models.Playlist || mongoose.model("Playlist", PlaylistSchema);

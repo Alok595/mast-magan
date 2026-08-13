@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Kalam } from "next/font/google";
 import Link from "next/link";
 import Image from "next/image";
-import { LogOut, Trash2, Plus, Disc3, Activity, LayoutDashboard, Settings, Music, Wand2, Edit2, Users, ChevronDown, ChevronUp, Play, X, Home } from "lucide-react";
+import { LogOut, Trash2, Plus, Disc3, Activity, LayoutDashboard, Settings, Music, Wand2, Edit2, Users, ChevronDown, ChevronUp, Play, X, Home, Star } from "lucide-react";
 import { useMusicStore } from "@/store/useMusicStore";
 
 const kalam = Kalam({
@@ -15,13 +15,13 @@ const kalam = Kalam({
   subsets: ["devanagari", "latin"],
 });
 
-const PlaylistCard = ({ pl, idx, handleEdit, handleDelete, kalam }) => (
+const PlaylistCard = ({ pl, idx, handleEdit, handleDelete, handleSetDefault, isAdmin, kalam }) => (
   <motion.div 
     initial={{ opacity: 0, y: 50, rotate: -2 }}
     animate={{ opacity: 1, y: 0, rotate: idx % 2 === 0 ? -2 : 3 }}
     transition={{ delay: idx * 0.15, type: "spring", stiffness: 100 }}
     whileHover={{ scale: 1.05, rotate: 0, zIndex: 50 }}
-    className="relative group cursor-pointer mt-12"
+    className={`relative group cursor-pointer mt-12 ${pl.isDefault ? 'ring-4 ring-[#D4AF37] ring-offset-4 ring-offset-[#140C07] rounded-sm' : ''}`}
   >
     {/* The Vinyl Record (Sliding out on hover) */}
     <div className="absolute -top-12 left-1/2 -translate-x-1/2 w-48 h-48 sm:w-56 sm:h-56 bg-[#111] rounded-full shadow-2xl border-[6px] border-black flex items-center justify-center z-0 transition-all duration-500 ease-out group-hover:-translate-y-16 group-hover:rotate-180 group-hover:shadow-[0_0_30px_rgba(212,175,55,0.4)]">
@@ -71,19 +71,28 @@ const PlaylistCard = ({ pl, idx, handleEdit, handleDelete, kalam }) => (
       </div>
 
       {/* Admin Actions */}
-      <div className="relative z-20 flex justify-center gap-4 mt-6 pt-4 border-t border-black/10">
+      <div className="relative z-20 flex flex-wrap justify-center gap-2 mt-6 pt-4 border-t border-black/10">
         <button 
           onClick={(e) => { e.preventDefault(); handleEdit(pl); }}
-          className="bg-[#140C07] hover:bg-[#D4AF37] text-[#E8DCC4] hover:text-black text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full transition-colors flex items-center gap-2 shadow-md"
+          className="bg-[#140C07] hover:bg-[#D4AF37] text-[#E8DCC4] hover:text-black text-[10px] font-bold uppercase tracking-widest px-3 py-2 rounded-full transition-colors flex items-center gap-1 shadow-md"
         >
-          <Edit2 size={14} /> Edit
+          <Edit2 size={12} /> Edit
         </button>
         <button 
           onClick={(e) => { e.preventDefault(); handleDelete(pl._id); }}
-          className="bg-red-100 hover:bg-[#CC3333] text-red-600 hover:text-white text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full transition-colors flex items-center gap-2 shadow-md"
+          className="bg-red-100 hover:bg-[#CC3333] text-red-600 hover:text-white text-[10px] font-bold uppercase tracking-widest px-3 py-2 rounded-full transition-colors flex items-center gap-1 shadow-md"
         >
-          <Trash2 size={14} /> Delete
+          <Trash2 size={12} /> Delete
         </button>
+        {isAdmin && (
+          <button 
+            onClick={(e) => { e.preventDefault(); handleSetDefault(pl._id); }}
+            className={`${pl.isDefault ? 'bg-[#D4AF37] text-black' : 'bg-gray-200 text-gray-600 hover:bg-[#D4AF37] hover:text-black'} text-[10px] font-bold uppercase tracking-widest px-3 py-2 rounded-full transition-colors flex items-center gap-1 shadow-md`}
+          >
+            <Star size={12} fill={pl.isDefault ? "currentColor" : "none"} /> 
+            {pl.isDefault ? "Default" : "Set Default"}
+          </button>
+        )}
       </div>
 
     </div>
@@ -167,6 +176,20 @@ export default function AdminDashboard() {
     if (confirm("Are you sure you want to delete this mixtape?")) {
       await fetch(`/api/playlists/${id}`, { method: "DELETE" });
       fetchData();
+    }
+  };
+
+  const handleSetDefault = async (dbId) => {
+    if (!isAdmin) return;
+    try {
+      const res = await fetch(`/api/playlists/${encodeURIComponent(dbId)}/default`, { method: "POST" });
+      if (res.ok) {
+        fetchData();
+      } else {
+        console.error("Failed to set default playlist.");
+      }
+    } catch (e) {
+      console.error("Error setting default playlist:", e);
     }
   };
 
@@ -448,14 +471,14 @@ export default function AdminDashboard() {
                   <h3 className="text-2xl font-bold text-white/50 tracking-widest uppercase text-sm mt-8">Official Releases</h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-24 mt-12 mb-16">
                     {stats.playlists.filter(p => p.ownerEmail === "admin@mastmagan.com").map((pl, idx) => (
-                      <PlaylistCard key={pl._id} pl={pl} idx={idx} handleEdit={handleEdit} handleDelete={handleDelete} kalam={kalam} />
+                      <PlaylistCard key={pl._id} pl={pl} idx={idx} handleEdit={handleEdit} handleDelete={handleDelete} handleSetDefault={handleSetDefault} isAdmin={isAdmin} kalam={kalam} />
                     ))}
                   </div>
                 </>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-24 mt-12 mb-16">
                   {stats.playlists.filter(p => p.ownerEmail === userEmail).map((pl, idx) => (
-                    <PlaylistCard key={pl._id} pl={pl} idx={idx} handleEdit={handleEdit} handleDelete={handleDelete} kalam={kalam} />
+                    <PlaylistCard key={pl._id} pl={pl} idx={idx} handleEdit={handleEdit} handleDelete={handleDelete} handleSetDefault={handleSetDefault} isAdmin={isAdmin} kalam={kalam} />
                   ))}
                   {stats.playlists.filter(p => p.ownerEmail === userEmail).length === 0 && (
                     <div className="col-span-full py-20 text-center">

@@ -1,10 +1,10 @@
 import { create } from "zustand";
 
 export const useMusicStore = create((set) => ({
-  mode: "cinematic", // "cinematic" | "deluxe-salon" | "night-bus"
+  mode: null, // Dynamically set by GlobalPlayer based on DB
   setMode: (mode) => set({ mode }),
   
-  isPlaying: false,
+  isPlaying: true,
   setIsPlaying: (isPlaying) => set({ isPlaying }),
   
   playerRef: null,

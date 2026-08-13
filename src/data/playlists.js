@@ -1,7 +1,7 @@
 export const playlists = [
   {
-    id: "cinematic",
-    title: "Rajshri Classics",
+    id: "mastmagan",
+    title: "Mast Magan",
     description: "The ultimate collection of timeless golden era classics.",
     cover: "https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?q=80&w=600&auto=format&fit=crop",
     tracks: [
