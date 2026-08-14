@@ -46,7 +46,7 @@ export default function PlaylistsPage() {
         {/* Playlist Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-24 mt-16 px-4">
           {playlists.map((playlist, idx) => (
-            <Link key={playlist.id} href={`/playlists/${playlist.id}`}>
+            <Link key={playlist._id || playlist.id} href={`/playlists/${playlist.playlistId || playlist.id}`}>
               <motion.div 
                 initial={{ opacity: 0, y: 50, rotate: -2 }}
                 animate={{ opacity: 1, y: 0, rotate: idx % 2 === 0 ? -2 : 3 }}

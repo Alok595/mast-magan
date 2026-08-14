@@ -89,9 +89,9 @@ export default function GlobalPlayer() {
         
         const currentlyPlaying = useMusicStore.getState().isPlaying;
         if (currentlyPlaying) {
-          playerRef.loadVideoById(extractedId);
+          playerRef.loadVideoById({ videoId: extractedId, startSeconds: 0 });
         } else {
-          playerRef.cueVideoById(extractedId);
+          playerRef.cueVideoById({ videoId: extractedId, startSeconds: 0 });
         }
       }
     }
@@ -204,10 +204,10 @@ export default function GlobalPlayer() {
     }
   }, [pathname]);
 
-  if (pathname && pathname.startsWith("/admin")) return null;
-
   // Capture initial saved time only once to prevent opts from changing and reloading the player
   const initialSavedTimeRef = useRef(useMusicStore.getState().savedTime);
+
+  if (pathname && pathname.startsWith("/admin")) return null;
 
   return (
     <>

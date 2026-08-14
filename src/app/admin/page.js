@@ -49,7 +49,7 @@ const PlaylistCard = ({ pl, idx, handleEdit, handleDelete, handleSetDefault, isA
             className="object-cover sepia-[0.6] contrast-125 group-hover:sepia-0 group-hover:contrast-100 transition-all duration-700"
           />
           
-          <Link href={`/playlists/${pl._id}`}>
+          <Link href={`/playlists/${pl.playlistId || pl.id}`}>
             <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/30">
               <div className="w-16 h-16 bg-[#CC3333] rounded-full flex items-center justify-center text-white shadow-[0_0_30px_rgba(204,51,51,0.6)] border-2 border-white/80 scale-90 group-hover:scale-100 transition-transform hover:bg-red-600">
                 <Play size={28} fill="currentColor" className="ml-1" />
