@@ -29,7 +29,6 @@ export default function GlobalPlayer() {
     setCurrentSongIndex,
     playlists,
     setPlaylists,
-    savedTime,
     setSavedTime
   } = useMusicStore();
   const [currentTime, setCurrentTime] = useState(0);
@@ -207,6 +206,9 @@ export default function GlobalPlayer() {
 
   if (pathname && pathname.startsWith("/admin")) return null;
 
+  // Capture initial saved time only once to prevent opts from changing and reloading the player
+  const initialSavedTimeRef = useRef(useMusicStore.getState().savedTime);
+
   return (
     <>
       <div className="hidden">
@@ -220,7 +222,7 @@ export default function GlobalPlayer() {
               controls: 0,
               disablekb: 1,
               vq: 'hd1080',
-              start: Math.floor(savedTime || 0),
+              start: Math.floor(initialSavedTimeRef.current || 0),
             },
           }}
           onReady={onPlayerReady}
