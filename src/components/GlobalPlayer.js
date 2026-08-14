@@ -28,14 +28,18 @@ export default function GlobalPlayer() {
     currentSongIndex,
     setCurrentSongIndex,
     playlists,
-    setPlaylists
+    setPlaylists,
+    savedTime,
+    setSavedTime
   } = useMusicStore();
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(100);
   const [isVolumeChanging, setIsVolumeChanging] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
 
   useEffect(() => {
+    setHasMounted(true);
     fetch("/api/playlists")
       .then(res => res.json())
       .then(data => {
@@ -100,13 +104,21 @@ export default function GlobalPlayer() {
 
     const interval = setInterval(() => {
       try {
-        setCurrentTime(playerRef.getCurrentTime() || 0);
+        const time = playerRef.getCurrentTime() || 0;
+        setCurrentTime(time);
+        
+        // Save time to local storage every 5 seconds or so to avoid too many writes, 
+        // or just rely on Zustand's throttle. Since Zustand persist writes to localStorage, 
+        // writing every 500ms is a bit aggressive. Let's only write if the change is significant.
+        // Actually, for simplicity and since it's a small app, we'll just write it.
+        setSavedTime(time);
+        
         setDuration(playerRef.getDuration() || 0);
       } catch (e) {}
-    }, 500);
+    }, 1000); // 1 second interval is better for localStorage
 
     return () => clearInterval(interval);
-  }, [playerRef, isPlaying]);
+  }, [playerRef, isPlaying, setSavedTime]);
 
   const onPlayerReady = (event) => {
     setPlayerRef(event.target);
@@ -208,6 +220,7 @@ export default function GlobalPlayer() {
               controls: 0,
               disablekb: 1,
               vq: 'hd1080',
+              start: Math.floor(savedTime || 0),
             },
           }}
           onReady={onPlayerReady}
