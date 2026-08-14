@@ -3,11 +3,26 @@ import dbConnect from "@/lib/mongodb";
 import Playlist from "@/models/Playlist";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
+import jwt from "jsonwebtoken";
+
+const getAuth = async (req) => {
+  const session = await getServerSession(authOptions);
+  if (session && session.user) return { email: session.user.email, role: session.user.role };
+  
+  const authHeader = req.headers.get("authorization");
+  if (authHeader && authHeader.startsWith("Bearer ")) {
+    try {
+      const decoded = jwt.verify(authHeader.split(" ")[1], process.env.NEXTAUTH_SECRET || "mastmagan_super_secret_key");
+      return { email: decoded.email, role: decoded.role };
+    } catch (err) { return null; }
+  }
+  return null;
+};
 
 export async function POST(req, { params }) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session || session.user.role !== "admin") {
+    const auth = await getAuth(req);
+    if (!auth || auth.role !== "admin") {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 

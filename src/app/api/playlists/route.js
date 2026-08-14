@@ -3,6 +3,7 @@ import Playlist from "@/models/Playlist";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
+import jwt from "jsonwebtoken";
 
 export const dynamic = 'force-dynamic';
 
@@ -25,21 +26,39 @@ export async function GET() {
 
 export async function POST(req) {
   try {
+    let authEmail = null;
+
+    // 1. Check Web Session
     const session = await getServerSession(authOptions);
-    if (!session || !session.user) {
+    if (session && session.user) {
+      authEmail = session.user.email;
+    }
+
+    // 2. Check Mobile JWT
+    if (!authEmail) {
+      const authHeader = req.headers.get("authorization");
+      if (authHeader && authHeader.startsWith("Bearer ")) {
+        const token = authHeader.split(" ")[1];
+        try {
+          const secret = process.env.NEXTAUTH_SECRET || "mastmagan_super_secret_key";
+          const decoded = jwt.verify(token, secret);
+          authEmail = decoded.email;
+        } catch (err) {
+          // invalid token
+        }
+      }
+    }
+
+    if (!authEmail) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     await dbConnect();
     const data = await req.json();
     
-    // Assign the owner email from session if available, else trust data
-    const finalEmail = session?.user?.email || data.ownerEmail;
-    if (finalEmail) {
-      data.ownerEmail = finalEmail;
-    } else {
-      delete data.ownerEmail; // Let Mongoose use the default
-    }
+    // Assign the owner email from auth
+    data.ownerEmail = authEmail;
+    
     
     const newPlaylist = await Playlist.create(data);
     return NextResponse.json(newPlaylist, { status: 201 });
