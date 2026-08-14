@@ -155,7 +155,7 @@ export default function LeaderboardPage() {
                     <div className="flex-1 min-w-0">
                       <h3 className="font-bold text-lg text-white truncate">{playlist.title}</h3>
                       <p className="text-sm text-white/50 truncate flex items-center gap-1">
-                        By {playlist.ownerEmail?.split('@')[0] || "Unknown"}
+                        By {playlist.creatorName || playlist.ownerEmail?.split('@')[0] || "Unknown"}
                       </p>
                     </div>
 

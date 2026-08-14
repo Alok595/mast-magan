@@ -1,5 +1,6 @@
 import dbConnect from "@/lib/mongodb";
 import Playlist from "@/models/Playlist";
+import User from "@/models/User";
 import { NextResponse } from "next/server";
 
 export const dynamic = 'force-dynamic';
@@ -12,20 +13,30 @@ export async function GET(req) {
     // We will include all playlists in the leaderboard.
     const customPlaylists = await Playlist.find({}).lean();
     
-    // Mongoose doesn't easily sort by array length in a standard find() query without aggregation.
-    // Since this is a simple leaderboard, we can sort them in memory or use aggregation.
-    // Given the potential size, aggregation is better, but since it's a small app, in memory is fine for now.
+    // Fetch users to map emails to names
+    const users = await User.find({}, 'email name').lean();
+    const userMap = {};
+    users.forEach(u => {
+      userMap[u.email] = u.name;
+    });
     
-    // Let's use standard JS sort to allow frontend to easily switch tabs without fetching again,
-    // or we can return them all and let frontend sort, but let's pre-calculate.
-    
-    const mappedPlaylists = customPlaylists.map(p => ({
-      ...p,
-      _id: p._id.toString(),
-      id: p.playlistId,
-      likesCount: p.likes ? p.likes.length : 0,
-      tracks: p.tracks.map(t => ({ ...t, _id: t._id.toString() }))
-    }));
+    const mappedPlaylists = customPlaylists.map(p => {
+      let creator = "Unknown";
+      if (p.isDefault || p.ownerEmail === "admin@mastmagan.com") {
+        creator = "Admin";
+      } else if (p.ownerEmail) {
+        creator = userMap[p.ownerEmail] || p.ownerEmail.split('@')[0];
+      }
+
+      return {
+        ...p,
+        creatorName: creator,
+        _id: p._id.toString(),
+        id: p.playlistId,
+        likesCount: p.likes ? p.likes.length : 0,
+        tracks: p.tracks.map(t => ({ ...t, _id: t._id.toString() }))
+      };
+    });
 
     return NextResponse.json(mappedPlaylists, { status: 200 });
   } catch (error) {
