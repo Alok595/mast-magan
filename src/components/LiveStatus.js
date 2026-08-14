@@ -36,7 +36,7 @@ export default function LiveStatus() {
   }, []);
 
   return (
-    <div className="absolute top-8 left-8 z-50 flex flex-col gap-2 pointer-events-none">
+    <div className="z-50 flex flex-col gap-2 pointer-events-none">
       <motion.div 
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}

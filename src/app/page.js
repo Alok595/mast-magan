@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useMusicStore } from "@/store/useMusicStore";
 import { motion, AnimatePresence } from "framer-motion";
-import { Disc3, Video } from "lucide-react";
+import { Disc3, Video, Trophy } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Yatra_One, Kalam } from "next/font/google";
@@ -68,9 +68,20 @@ export default function Home() {
             </motion.div>
           </Link>
 
-          <Link href="/admin">
+          <Link href="/leaderboard">
             <motion.div 
               whileHover={{ scale: 1.05, rotate: -2 }}
+              whileTap={{ scale: 0.95 }}
+              className="flex items-center gap-2 md:gap-3 bg-gradient-to-r from-[#D4AF37] to-[#AA8000] text-[#140C07] px-4 md:px-6 py-2 md:py-3 rounded-sm shadow-[5px_5px_15px_rgba(212,175,55,0.3)] border border-[#F3E5AB] cursor-pointer group relative overflow-hidden"
+            >
+              <Trophy size={18} className="md:w-6 md:h-6 drop-shadow-md" />
+              <span className={`font-bold text-sm md:text-xl uppercase tracking-widest ${kalam.className}`}>Leaderboard</span>
+            </motion.div>
+          </Link>
+
+          <Link href="/admin">
+            <motion.div 
+              whileHover={{ scale: 1.05, rotate: 2 }}
               whileTap={{ scale: 0.95 }}
               className="flex items-center gap-2 md:gap-3 bg-[#1A1A1A] text-[#D4AF37] px-4 md:px-6 py-2 md:py-3 rounded-sm shadow-[5px_5px_15px_rgba(0,0,0,0.8)] border border-[#D4AF37]/50 cursor-pointer group relative overflow-hidden"
             >

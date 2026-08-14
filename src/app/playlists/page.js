@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Kalam } from "next/font/google";
 import { useMusicStore } from "@/store/useMusicStore";
+import { useSession } from "next-auth/react";
 
 const kalam = Kalam({
   weight: ["400", "700"],
@@ -13,6 +14,7 @@ const kalam = Kalam({
 });
 
 export default function PlaylistsPage() {
+  const { data: session } = useSession();
   const { playlists } = useMusicStore();
 
   return (
@@ -93,6 +95,43 @@ export default function PlaylistsPage() {
                     {/* Retro track count tag */}
                     <div className="absolute -right-3 top-8 bg-[#CC3333] text-white text-xs font-bold px-4 py-1 rotate-4 shadow-md font-mono uppercase tracking-widest border border-black/20">
                       Side A • {playlist.tracks.length} Trks
+                    </div>
+
+                    <div className="flex items-center justify-center gap-6 mt-6 pt-4 border-t border-black/10">
+                      <div className="flex items-center gap-1.5 text-[#8C6D23] font-bold font-mono">
+                        <Disc3 size={16} />
+                        <span>{playlist.playCount || 0}</span>
+                      </div>
+                      <button 
+                        onClick={async (e) => {
+                          e.preventDefault(); // Stop navigation
+                          if (!session) {
+                            alert("Please login to like a playlist!");
+                            return;
+                          }
+                          try {
+                            const res = await fetch(`/api/playlists/${playlist.playlistId || playlist.id}/like`, { method: "POST" });
+                            const data = await res.json();
+                            if (data.success) {
+                               // To update UI instantly, we would update the store, 
+                               // but for now we can just force a reload or rely on a local state if we want.
+                               // Let's just update the specific playlist in the store.
+                               useMusicStore.setState(state => ({
+                                 playlists: state.playlists.map(p => {
+                                   if (p.id === (playlist.playlistId || playlist.id)) {
+                                     return { ...p, likesCount: data.likesCount };
+                                   }
+                                   return p;
+                                 })
+                               }));
+                            }
+                          } catch (err) {}
+                        }}
+                        className="flex items-center gap-1.5 text-[#CC3333] font-bold font-mono hover:scale-110 transition-transform"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                        <span>{playlist.likesCount || 0}</span>
+                      </button>
                     </div>
                   </div>
 

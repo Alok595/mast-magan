@@ -16,7 +16,12 @@ const PlaylistSchema = new mongoose.Schema({
   ownerEmail: { type: String, default: "admin@mastmagan.com" },
   tracks: [TrackSchema],
   playCount: { type: Number, default: 0 },
+  likes: [{ type: String }],
   isDefault: { type: Boolean, default: false }
 }, { timestamps: true });
 
-export default mongoose.models.Playlist || mongoose.model("Playlist", PlaylistSchema);
+if (mongoose.models.Playlist) {
+  delete mongoose.models.Playlist;
+}
+
+export default mongoose.model("Playlist", PlaylistSchema);

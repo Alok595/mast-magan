@@ -4,6 +4,8 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     await dbConnect();
@@ -12,6 +14,7 @@ export async function GET() {
       ...p,
       _id: p._id.toString(),
       id: p.playlistId,
+      likesCount: p.likes ? p.likes.length : 0,
       tracks: p.tracks.map(t => ({ ...t, _id: t._id.toString() }))
     }));
     return NextResponse.json(mappedPlaylists, { status: 200 });
