@@ -62,7 +62,7 @@ export default function AdminLogin() {
           
           <Disc3 size={64} className="text-[#D4AF37] mb-6 animate-[spin_15s_linear_infinite]" />
           <h1 className={`text-6xl lg:text-7xl font-bold mb-6 leading-tight ${kalam.className} drop-shadow-[0_5px_15px_rgba(0,0,0,1)]`}>
-            Mast Magan
+            Dhun
           </h1>
           <p className="text-[#F3E5AB]/80 text-xl font-medium max-w-sm drop-shadow-md">
             Handpicked nostalgic vibes for the road.

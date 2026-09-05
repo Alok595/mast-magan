@@ -1,5 +1,5 @@
 export const lyricsData = {
-  "Mast Magan": [
+  "Dhun": [
     { time: 0, text: "♪ (Music)" },
     { time: 10, text: "Ishq ki dhuni roz jalaaye" },
     { time: 15, text: "Uthta dhuaan toh kaise chhupaaye" },
@@ -7,9 +7,9 @@ export const lyricsData = {
     { time: 25, text: "Maange hai teri manzoori" },
     { time: 30, text: "Kajra siyaahi, din rang jaaye" },
     { time: 35, text: "Teri kastoori rain jagaaye" },
-    { time: 40, text: "Man mast magan, man mast magan" },
+    { time: 40, text: "Man dhun, man dhun" },
     { time: 45, text: "Bas tera naam dohraaye" },
-    { time: 50, text: "Man mast magan, man mast magan" },
+    { time: 50, text: "Man dhun, man dhun" },
     { time: 55, text: "Tera naam dohraaye..." },
     { time: 60, text: "♪ (Music)" }
   ],

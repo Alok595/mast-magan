@@ -2,7 +2,7 @@ export const metadata = {
   title: "Mixtapes",
   description: "Browse our handpicked collection of nostalgic vibes, lofi tracks, and indie soulful mixtapes.",
   openGraph: {
-    title: "Mixtapes | Mast Magan",
+    title: "Mixtapes | Dhun",
     description: "Browse our handpicked collection of nostalgic vibes, lofi tracks, and indie soulful mixtapes.",
   },
 };

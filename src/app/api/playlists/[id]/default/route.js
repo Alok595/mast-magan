@@ -12,7 +12,7 @@ const getAuth = async (req) => {
   const authHeader = req.headers.get("authorization");
   if (authHeader && authHeader.startsWith("Bearer ")) {
     try {
-      const decoded = jwt.verify(authHeader.split(" ")[1], process.env.NEXTAUTH_SECRET || "mastmagan_super_secret_key");
+      const decoded = jwt.verify(authHeader.split(" ")[1], process.env.NEXTAUTH_SECRET || "dhun_super_secret_key");
       return { email: decoded.email, role: decoded.role };
     } catch (err) { return null; }
   }

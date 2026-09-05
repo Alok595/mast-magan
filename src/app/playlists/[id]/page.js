@@ -18,13 +18,13 @@ export async function generateMetadata({ params }) {
     title: dbPlaylist.title,
     description: dbPlaylist.description,
     openGraph: {
-      title: `${dbPlaylist.title} | Mast Magan`,
+      title: `${dbPlaylist.title} | Dhun`,
       description: dbPlaylist.description,
       images: [{ url: dbPlaylist.cover, width: 800, height: 800, alt: dbPlaylist.title }],
     },
     twitter: {
       card: "summary_large_image",
-      title: `${dbPlaylist.title} | Mast Magan`,
+      title: `${dbPlaylist.title} | Dhun`,
       description: dbPlaylist.description,
       images: [dbPlaylist.cover],
     },

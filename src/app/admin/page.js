@@ -396,7 +396,7 @@ export default function AdminDashboard() {
             <div className="h-[1px] w-12 bg-gradient-to-l from-transparent to-[#D4AF37]" />
           </div>
           <h1 className={`text-5xl md:text-7xl font-black tracking-tight ${kalam.className}`}>
-            <span className="text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]">Mast Magan</span>{" "}
+            <span className="text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]">Dhun</span>{" "}
             <span className="bg-gradient-to-br from-[#F3E5AB] via-[#D4AF37] to-[#8C6D23] bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(212,175,55,0.4)]">Studio</span>
           </h1>
           <p className="mt-4 text-[#F3E5AB]/60 text-[10px] md:text-xs font-mono uppercase tracking-[0.4em] md:tracking-[0.6em] font-bold">
@@ -470,7 +470,7 @@ export default function AdminDashboard() {
                 <>
                   <h3 className="text-2xl font-bold text-white/50 tracking-widest uppercase text-sm mt-8">Official Releases</h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-24 mt-12 mb-16">
-                    {stats.playlists.filter(p => p.ownerEmail === "admin@mastmagan.com").map((pl, idx) => (
+                    {stats.playlists.filter(p => p.ownerEmail === "admin@dhun.com").map((pl, idx) => (
                       <PlaylistCard key={pl._id} pl={pl} idx={idx} handleEdit={handleEdit} handleDelete={handleDelete} handleSetDefault={handleSetDefault} isAdmin={isAdmin} kalam={kalam} />
                     ))}
                   </div>
@@ -538,7 +538,7 @@ export default function AdminDashboard() {
                 <p className="text-white/40 text-sm">Playlists curated by the public.</p>
               </div>
               
-              {(stats.users && stats.users.length > 0) ? stats.users.filter(u => u.email !== "admin@mastmagan.com").map(user => (
+              {(stats.users && stats.users.length > 0) ? stats.users.filter(u => u.email !== "admin@dhun.com").map(user => (
                 <div key={user.email} className="bg-black/40 backdrop-blur-md p-6 rounded-3xl border border-white/5 shadow-xl">
                   <div className="flex items-center justify-between cursor-pointer group" onClick={() => toggleUser(user.email)}>
                     <div className="flex items-center gap-6">

@@ -9,7 +9,7 @@ export async function GET(req) {
   try {
     await dbConnect();
     
-    // The user originally asked for custom playlists, but now wants to see the Mast Magan playlist too.
+    // The user originally asked for custom playlists, but now wants to see the Dhun playlist too.
     // We will include all playlists in the leaderboard.
     const customPlaylists = await Playlist.find({}).lean();
     
@@ -22,7 +22,7 @@ export async function GET(req) {
     
     const mappedPlaylists = customPlaylists.map(p => {
       let creator = "Unknown";
-      if (p.isDefault || p.ownerEmail === "admin@mastmagan.com") {
+      if (p.isDefault || p.ownerEmail === "admin@dhun.com") {
         creator = "Admin";
       } else if (p.ownerEmail) {
         creator = userMap[p.ownerEmail] || p.ownerEmail.split('@')[0];

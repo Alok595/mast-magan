@@ -139,7 +139,7 @@ export default function GlobalPlayer() {
   const updateVideoData = (player) => {
     const data = player.getVideoData();
     setCurrentVideoData({
-      title: data.title || "Mast Magan Playlist",
+      title: data.title || "Dhun Playlist",
       author: data.author || "YouTube",
       videoId: data.video_id,
     });
@@ -315,7 +315,7 @@ export default function GlobalPlayer() {
                 animate={{ opacity: 1, x: 0 }}
                 className={`text-[#F4EBD0] font-bold text-2xl truncate w-full tracking-wide ${kalam.className}`}
               >
-                {currentVideoData?.title || "Mast Magan Playlist"}
+                {currentVideoData?.title || "Dhun Playlist"}
               </motion.h3>
               <p className="text-[#8C6D23] text-xs truncate w-full uppercase tracking-[0.2em] font-bold mt-1">
                 {currentVideoData?.author || "Click Play to Start"}

@@ -36,7 +36,7 @@ export async function POST(req) {
     });
 
     // Generate JWT
-    const secret = process.env.NEXTAUTH_SECRET || "mastmagan_super_secret_key";
+    const secret = process.env.NEXTAUTH_SECRET || "dhun_super_secret_key";
     const token = jwt.sign(
       { email: newUser.email, role: "user", name: newUser.name },
       secret,

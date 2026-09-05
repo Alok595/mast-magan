@@ -23,7 +23,7 @@ export const authOptions = {
           credentials.email === process.env.ADMIN_EMAIL && 
           credentials.password === process.env.ADMIN_PASSWORD
         ) {
-          return { id: 1, name: "Admin", email: "admin@mastmagan.com", role: "admin" };
+          return { id: 1, name: "Admin", email: "admin@dhun.com", role: "admin" };
         }
         
         // Normal user access via DB
@@ -78,5 +78,5 @@ export const authOptions = {
   pages: {
     signIn: "/admin/login",
   },
-  secret: process.env.NEXTAUTH_SECRET || "mastmagan_super_secret_key"
+  secret: process.env.NEXTAUTH_SECRET || "dhun_super_secret_key"
 };

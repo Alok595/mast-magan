@@ -12,35 +12,35 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  metadataBase: new URL("https://mastmagan.com"), // Replace with actual domain when ready
+  metadataBase: new URL("https://dhun.com"), // Replace with actual domain when ready
   title: {
-    default: "Mast Magan | Handpicked Nostalgic Vibes",
-    template: "%s | Mast Magan"
+    default: "Dhun | Handpicked Nostalgic Vibes",
+    template: "%s | Dhun"
   },
   description: "A premium community-driven platform for curating, sharing, and discovering nostalgic mixtapes and soulful music vibes.",
   keywords: ["music", "mixtapes", "nostalgia", "lofi", "bollywood lofi", "indie", "playlist curator"],
-  authors: [{ name: "Mast Magan Community" }],
-  creator: "Mast Magan Studio",
+  authors: [{ name: "Dhun Community" }],
+  creator: "Dhun Studio",
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://mastmagan.com",
-    title: "Mast Magan | Handpicked Nostalgic Vibes",
-    description: "Discover curated nostalgic mixtapes and soulful music vibes on Mast Magan.",
-    siteName: "Mast Magan",
+    url: "https://dhun.com",
+    title: "Dhun | Handpicked Nostalgic Vibes",
+    description: "Discover curated nostalgic mixtapes and soulful music vibes on Dhun.",
+    siteName: "Dhun",
     images: [
       {
         url: "/og-image.jpg", // We'll assume an og-image exists or user can add later
         width: 1200,
         height: 630,
-        alt: "Mast Magan - Nostalgic Vibes",
+        alt: "Dhun - Nostalgic Vibes",
       }
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Mast Magan | Handpicked Nostalgic Vibes",
-    description: "Discover curated nostalgic mixtapes and soulful music vibes on Mast Magan.",
+    title: "Dhun | Handpicked Nostalgic Vibes",
+    description: "Discover curated nostalgic mixtapes and soulful music vibes on Dhun.",
     images: ["/og-image.jpg"],
   },
   robots: {

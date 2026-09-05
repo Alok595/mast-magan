@@ -130,7 +130,7 @@ export default function Home() {
           transition={{ duration: 1.5, ease: "easeOut" }}
           className="text-center mb-8 relative"
         >
-          {/* Main Title: Mast Magan with Glow Animation */}
+          {/* Main Title: Dhun with Glow Animation */}
           <motion.div
             animate={{ 
               textShadow: [
@@ -144,7 +144,7 @@ export default function Home() {
             <h1 
               className={`text-7xl md:text-9xl font-black text-[#F3E5AB] drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)] mb-6 tracking-tight ${yatra.className}`} 
             >
-              मस्त मगन
+              धुन
             </h1>
           </motion.div>
           

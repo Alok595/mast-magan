@@ -26,7 +26,7 @@ export async function POST(req) {
       userRole = "admin";
       userName = "Admin";
       // Override email to match web app's hardcoded admin email
-      authEmail = "admin@mastmagan.com";
+      authEmail = "admin@dhun.com";
     } else {
       // 2. Check Database Users
       await dbConnect();
@@ -46,7 +46,7 @@ export async function POST(req) {
     }
 
     // Generate JWT
-    const secret = process.env.NEXTAUTH_SECRET || "mastmagan_super_secret_key";
+    const secret = process.env.NEXTAUTH_SECRET || "dhun_super_secret_key";
     const token = jwt.sign(
       { email: authEmail, role: userRole, name: userName },
       secret,

@@ -40,7 +40,7 @@ export async function POST(req) {
       if (authHeader && authHeader.startsWith("Bearer ")) {
         const token = authHeader.split(" ")[1];
         try {
-          const secret = process.env.NEXTAUTH_SECRET || "mastmagan_super_secret_key";
+          const secret = process.env.NEXTAUTH_SECRET || "dhun_super_secret_key";
           const decoded = jwt.verify(token, secret);
           authEmail = decoded.email;
         } catch (err) {

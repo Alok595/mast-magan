@@ -13,7 +13,7 @@ const PlaylistSchema = new mongoose.Schema({
   description: { type: String, required: true },
   cover: { type: String, required: true },
   backgroundMedia: { type: String, default: "" },
-  ownerEmail: { type: String, default: "admin@mastmagan.com" },
+  ownerEmail: { type: String, default: "admin@dhun.com" },
   tracks: [TrackSchema],
   playCount: { type: Number, default: 0 },
   likes: [{ type: String }],
